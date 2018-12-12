@@ -1,0 +1,12 @@
+[submodule "cookie-thief"]
+	path = cookie-thief
+	url = https://github.com/wsi-cogs/cookie-thief.git
+	branch = master
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/wsi-cogs/frontend.git
+	branch = master
+[submodule "backend"]
+	path = backend
+	url = https://github.com/wsi-cogs/backend.git
+	branch = master
