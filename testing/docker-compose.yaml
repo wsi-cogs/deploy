@@ -37,6 +37,8 @@ services:
     depends_on:
     - backend
     networks: [app]
+    volumes:
+     - /cogs/config/frontend.test.js:/usr/src/app/src/config.js
 
   cookie_thief:
     build:
