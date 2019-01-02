@@ -22,6 +22,7 @@ services:
     build:
       context: ../backend
       dockerfile: Dockerfile.live
+    restart: always
     depends_on:
     - postgres
     # - dummy_smtp
@@ -29,11 +30,17 @@ services:
     volumes:
      - /cogs/config/test.yaml:/cogs/config.yaml
      - /cogs/uploads/test:/uploads
+    healthcheck:
+      test: ["CMD", "./backend-health_check.sh"]
+      interval: 60s
+      timeout: 3s
+      retries: 30
 
   frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile
+    restart: always
     depends_on:
     - backend
     networks: [app]
@@ -44,12 +51,14 @@ services:
     build:
       context: ../cookie-thief
       dockerfile: Dockerfile
+    restart: always
     networks: [app]
 
   nginx:
     build:
       context: .
       dockerfile: Dockerfile.nginx
+    restart: always
     depends_on:
      - frontend
      - backend
