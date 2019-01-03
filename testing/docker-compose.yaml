@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:10
     restart: always
     networks: [app]
     volumes:
@@ -44,8 +44,8 @@ services:
     depends_on:
     - backend
     networks: [app]
-    volumes:
-     - /cogs/config/frontend.test.js:/app/src/config.js
+#    volumes:
+#     - /cogs/config/frontend.test.js:/app/src/config.js
 
   cookie_thief:
     build:
