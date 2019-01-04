@@ -11,13 +11,6 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: mercury
 
-  # dummy_smtp:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.smtp
-  #   tty: true
-  #   networks: [app]
-
   backend:
     build:
       context: ../backend
@@ -25,7 +18,6 @@ services:
     restart: always
     depends_on:
     - postgres
-    # - dummy_smtp
     networks: [app]
     volumes:
      - /cogs/config/test.yaml:/cogs/config.yaml
@@ -48,8 +40,6 @@ services:
     depends_on:
     - backend
     networks: [app]
-#    volumes:
-#     - /cogs/config/frontend.test.js:/app/src/config.js
 
   cookie_thief:
     build:
