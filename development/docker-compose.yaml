@@ -2,30 +2,69 @@ version: '3'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:10
     restart: always
     networks: [app]
     volumes:
-      - /cogs/postgres/dev:/var/lib/postgresql
+      - /cogs/postgres/dev:/var/lib/postgresql/data/pgdata
     environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: mercury
 
   backend:
     build:
-      context: ../../
-      dockerfile: docker/development/Dockerfile
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    restart: always
     depends_on:
     - postgres
     networks: [app]
-    ports:
-     - "8001:8000"
     volumes:
      - /cogs/config/dev.yaml:/cogs/config.yaml
      - /cogs/uploads/dev:/uploads
+    healthcheck:
+      test: ["CMD", "./backend-health_check.sh"]
+      interval: 60s
+      timeout: 3s
+      retries: 30
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+      args:
+       - API_URL
+       - AUTHENTICATOR
+       - DEVELOPER
+       - PORT=80
+    restart: always
+    depends_on:
+    - backend
+    networks: [app]
+
+  cookie_thief:
+    build:
+      context: ../cookie-thief
+      dockerfile: Dockerfile
+    restart: always
+    networks: [app]
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    restart: always
+    depends_on:
+     - frontend
+     - backend
+     - cookie_thief
+    ports:
+     - "8001:80"
+    networks: [app]
 
 networks:
   app:
     ipam:
       driver: default
       config:
-      - subnet: 10.0.0.1/24
+      - subnet: 10.0.1.1/24
