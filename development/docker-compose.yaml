@@ -18,6 +18,7 @@ services:
     restart: always
     depends_on:
     - postgres
+    - mailserver
     networks: [app]
     volumes:
      - /cogs/config/dev.yaml:/cogs/config.yaml
@@ -60,6 +61,13 @@ services:
      - cookie_thief
     ports:
      - "8001:80"
+    networks: [app]
+
+  mailserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.smtp
+    restart: always
     networks: [app]
 
 networks:
