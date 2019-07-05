@@ -41,13 +41,6 @@ services:
     - backend
     networks: [app]
 
-  cookie_thief:
-    build:
-      context: ../cookie-thief
-      dockerfile: Dockerfile
-    restart: always
-    networks: [app]
-
   nginx:
     build:
       context: .
@@ -56,7 +49,6 @@ services:
     depends_on:
      - frontend
      - backend
-     - cookie_thief
     ports:
      - "8000:80"
     networks: [app]
