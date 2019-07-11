@@ -35,7 +35,6 @@ services:
       dockerfile: Dockerfile.dev
       args:
        - API_URL
-       - AUTHENTICATOR
        - DEVELOPER
        - PORT=80
     restart: always

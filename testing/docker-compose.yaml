@@ -34,7 +34,6 @@ services:
       dockerfile: Dockerfile
       args:
        - API_URL
-       - AUTHENTICATOR
        - DEVELOPER
     restart: always
     depends_on:
