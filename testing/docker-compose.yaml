@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
       args:
        - API_URL
-       - DEVELOPER
+       - DEVELOPER=false
     restart: always
     depends_on:
     - backend

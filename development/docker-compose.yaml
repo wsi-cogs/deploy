@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.dev
       args:
        - API_URL
-       - DEVELOPER
+       - DEVELOPER=true
        - PORT=80
     restart: always
     depends_on:
