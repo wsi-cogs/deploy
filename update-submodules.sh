@@ -14,7 +14,7 @@ git submodule update --remote >/dev/null 2>&1
 if is_dirty; then
   {
     git add .
-    git commit -m "Updated submodules"
+    git commit -m "Update submodules"
     git push
   } >/dev/null 2>&1
 
