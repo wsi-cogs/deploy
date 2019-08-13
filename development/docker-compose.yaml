@@ -23,6 +23,7 @@ services:
     volumes:
      - /cogs/config/dev.yaml:/cogs/config.yaml
      - /cogs/uploads/dev:/uploads
+     - ./faketimerc:/etc/faketimerc
     healthcheck:
       test: ["CMD", "./backend-health_check.sh"]
       interval: 60s
