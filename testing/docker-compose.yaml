@@ -6,7 +6,7 @@ services:
     restart: always
     networks: [app]
     volumes:
-      - /cogs/postgres/test:/var/lib/postgresql/data/pgdata
+    - /cogs/postgres/test:/var/lib/postgresql/data/pgdata
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: mercury
@@ -20,8 +20,8 @@ services:
     - postgres
     networks: [app]
     volumes:
-     - /cogs/config/test.yaml:/cogs/config.yaml
-     - /cogs/uploads/test:/uploads
+    - /cogs/config/test.yaml:/cogs/config.yaml
+    - /cogs/uploads/test:/uploads
     healthcheck:
       test: ["CMD", "./backend-health_check.sh"]
       interval: 60s
@@ -33,23 +33,23 @@ services:
       context: ../frontend
       dockerfile: Dockerfile
       args:
-       - API_URL
-       - DEVELOPER=false
+      - API_URL
+      - DEVELOPER=false
     restart: always
     depends_on:
     - backend
     networks: [app]
 
   nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
+    image: nginx
     restart: always
     depends_on:
-     - frontend
-     - backend
+    - frontend
+    - backend
+    volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-     - "8000:80"
+    - "8000:80"
     networks: [app]
 
 networks:

@@ -16,7 +16,7 @@ services:
       context: ../backend
       dockerfile: Dockerfile.dev
       args:
-       - DEVELOPER=true
+      - DEVELOPER=true
     restart: always
     depends_on:
     - postgres
@@ -37,24 +37,24 @@ services:
       context: ../frontend
       dockerfile: Dockerfile.dev
       args:
-       - API_URL
-       - DEVELOPER=true
-       - PORT=80
+      - API_URL
+      - DEVELOPER=true
+      - PORT=80
     restart: always
     depends_on:
     - backend
     networks: [app]
 
   nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
+    image: nginx
     restart: always
     depends_on:
-     - frontend
-     - backend
+    - frontend
+    - backend
+    volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-     - "8001:80"
+    - "8001:80"
     networks: [app]
 
   mailserver:
@@ -62,6 +62,7 @@ services:
       context: .
       dockerfile: Dockerfile.smtp
     restart: always
+    tty: true
     networks: [app]
 
 networks:
